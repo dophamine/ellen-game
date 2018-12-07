@@ -23,18 +23,21 @@ public class Move implements Action<Movable> {
 
     @Override
     public void execute(float deltaTime) {
-        if (actor == null) {
-            return;
-        }
         if (!isExecutedEarlier) {
             getActor().startedMoving(direction);
             isExecutedEarlier = true;
         }
 
         int speed = getActor().getSpeed();
-        int posX = getActor().getPosX();
-        int posY = getActor().getPosY();
-        getActor().setPosition(posX + direction.getDx() * speed, posY + direction.getDy() * speed);
+
+        float length = (float)Math.sqrt((Math.pow(direction.getDx(), 2) + Math.pow(direction.getDy(), 2)));
+        float dx = direction.getDx()/length;
+        float dy = direction.getDy()/length;
+
+        int posX = Math.round(getActor().getPosX() + dx * speed);
+        int posY = Math.round(getActor().getPosY() + dy * speed);
+
+        getActor().setPosition(posX , posY);
         duration -= deltaTime;
 
         if (isDone()) {
@@ -67,5 +70,6 @@ public class Move implements Action<Movable> {
 
     public void stop() {
         duration = 0.f;
+        getActor().stoppedMoving();
     }
 }

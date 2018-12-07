@@ -1,20 +1,43 @@
 package sk.tuke.kpi.oop.game.scenarios;
 
 import org.jetbrains.annotations.NotNull;
+import sk.tuke.kpi.gamelib.GameApplication;
 import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.SceneListener;
-import sk.tuke.kpi.oop.game.actions.Move;
-import sk.tuke.kpi.oop.game.characters.Direction;
+import sk.tuke.kpi.gamelib.graphics.Overlay;
 import sk.tuke.kpi.oop.game.characters.Ripley;
-import sk.tuke.kpi.oop.game.controllers.KeyboardController;
+import sk.tuke.kpi.oop.game.controllers.CollectorController;
+import sk.tuke.kpi.oop.game.controllers.MovableController;
+import sk.tuke.kpi.oop.game.items.*;
 
 public class FirstSteps implements SceneListener {
+    private Ripley player = new Ripley();
+
     @Override
     public void sceneInitialized(@NotNull Scene scene) {
-        Ripley actor = new Ripley();
-        scene.addActor(actor,0,0);
+        scene.addActor(player,0,0);
+        Backpack backpack = (Backpack) player.getContainer();
+        scene.getGame().pushActorContainer(player.getContainer());
 
-        KeyboardController controller = new KeyboardController(actor);
+        MovableController controller = new MovableController(player);
         scene.getInput().registerListener(controller);
+        scene.getInput().registerListener(new CollectorController(player));
+
+        scene.addActor(new Energy(), 110, 120);
+
+        scene.addActor(new Ammo(), -10, 160);
+
+//        backpack.add(new Ammo());
+//        backpack.add(new Energy());
+    }
+
+    @Override
+    public void sceneUpdating(@NotNull Scene scene) {
+        Overlay overlay = scene.getGame().getOverlay();
+        int windowHeight = scene.getGame().getWindowSetup().getHeight();
+        int topOffset = GameApplication.STATUS_LINE_OFFSET;
+        int yTextPos = windowHeight - topOffset;
+
+        overlay.drawText(" | Energy: " + player.getEnergy() + " | Ammo: " + player.getBullets(), 90, yTextPos);
     }
 }

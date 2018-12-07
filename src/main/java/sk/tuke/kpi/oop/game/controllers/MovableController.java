@@ -7,11 +7,9 @@ import sk.tuke.kpi.oop.game.actions.Move;
 import sk.tuke.kpi.oop.game.characters.Direction;
 import sk.tuke.kpi.oop.game.characters.Movable;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public class KeyboardController implements KeyboardListener {
+public class MovableController implements KeyboardListener {
     private Movable actor;
     private Map<Input.Key, Direction> keyDirectionMap = Map.ofEntries(
         Map.entry(Input.Key.UP, Direction.NORTH),
@@ -20,9 +18,9 @@ public class KeyboardController implements KeyboardListener {
         Map.entry(Input.Key.LEFT, Direction.WEST)
     );
     private Move moveAction;
-    private Set<Input.Key> pressedKeys = new HashSet<>();
+    private Set<Input.Key> pressedKeys = new LinkedHashSet<>();
 
-    public KeyboardController(Movable actor) {
+    public MovableController(Movable actor) {
         this.actor = actor;
     }
 
@@ -42,6 +40,7 @@ public class KeyboardController implements KeyboardListener {
             if (moveAction != null) {
                 if (pressedKeys.size() == 0) {
                     moveAction.stop();
+                    moveAction = null;
                 } else {
                     updateMovement();
                 }
@@ -50,8 +49,12 @@ public class KeyboardController implements KeyboardListener {
     }
 
     private Direction calcDirection() {
+        // reversing
+        List<Input.Key> list = new ArrayList(pressedKeys);
+        Collections.reverse(list);
+
         Direction newDirection = Direction.NONE;
-        for (Input.Key value: pressedKeys) {
+        for (Input.Key value: list) {
             newDirection = newDirection.combine(keyDirectionMap.get(value));
         }
 
