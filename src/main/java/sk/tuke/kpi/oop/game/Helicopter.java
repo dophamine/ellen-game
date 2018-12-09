@@ -31,6 +31,6 @@ public class Helicopter extends AbstractActor {
         }
     }
     public void searchAndDestroy(){
-        new Loop<>(new Invoke(this::seek)).scheduleOn(this);
+        new Loop<>(new Invoke<>(this::seek)).scheduleOn(this);
     }
 }

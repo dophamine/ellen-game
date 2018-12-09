@@ -14,7 +14,7 @@ public class Backpack implements ActorContainer<Collectible> {
     public Backpack(String name, int capacity) {
         this.name = name;
         this.capacity = capacity;
-        backpack = new ArrayList(capacity);
+        backpack = new ArrayList<Collectible>(capacity);
     }
 
     @Override

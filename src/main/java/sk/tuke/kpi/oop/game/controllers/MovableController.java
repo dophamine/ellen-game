@@ -50,7 +50,7 @@ public class MovableController implements KeyboardListener {
 
     private Direction calcDirection() {
         // reversing the list
-        List<Input.Key> list = new ArrayList(pressedKeys);
+        List<Input.Key> list = new ArrayList<Input.Key>(pressedKeys);
         Collections.reverse(list);
 
         Direction newDirection = Direction.NONE;

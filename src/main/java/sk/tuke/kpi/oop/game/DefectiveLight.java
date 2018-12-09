@@ -26,7 +26,7 @@ public class DefectiveLight extends Light implements Repairable{
     @Override
     public void addedToScene(@NotNull Scene scene) {
         super.addedToScene(scene);
-        blick = new Loop<>(new Invoke(this::blinking)).scheduleOn(this);
+        blick = new Loop<>(new Invoke<>(this::blinking)).scheduleOn(this);
     }
 
 
@@ -35,7 +35,7 @@ public class DefectiveLight extends Light implements Repairable{
         if (!repaired && blick != null) {
             blick.dispose();
             repaired = true;
-            new ActionSequence<>(new Wait(10), new Loop<>(new Invoke(this::blinking))).scheduleOn(this);
+            new ActionSequence<>(new Wait<>(10), new Loop<>(new Invoke<>(this::blinking))).scheduleOn(this);
             return true;
         }
         return false;

@@ -28,6 +28,6 @@ public class SmartCooler extends Cooler {
     @Override
     public void addedToScene(@NotNull Scene scene) {
         super.addedToScene(scene);
-        new Loop<>(new Invoke(this::cool)).scheduleOn(this);
+        new Loop<>(new Invoke<>(this::cool)).scheduleOn(this);
     }
 }
