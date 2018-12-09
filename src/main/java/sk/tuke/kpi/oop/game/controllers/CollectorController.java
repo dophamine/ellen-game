@@ -12,8 +12,6 @@ import sk.tuke.kpi.oop.game.actions.Use;
 import sk.tuke.kpi.oop.game.items.Collectible;
 import sk.tuke.kpi.oop.game.items.Usable;
 
-interface UsableActor extends Usable<Actor> { }
-
 public class CollectorController implements KeyboardListener {
     private Keeper<Collectible> actor;
 
@@ -64,7 +62,8 @@ public class CollectorController implements KeyboardListener {
     private void doUseFromBackpack() {
         Collectible item = actor.getContainer().peek();
         if (item != null) {
-            Use action = new Use((UsableActor) item);
+            @SuppressWarnings("unchecked")
+            Use action = new Use((Usable<Actor>) item);
             action.scheduleOnIntersectingWith(actor);
         }
     }

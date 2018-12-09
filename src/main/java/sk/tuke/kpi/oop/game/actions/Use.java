@@ -38,7 +38,9 @@ public class Use extends AbstractAction<Actor> {
         } else {
             for (Actor actor : scene) {
                 if (mediatingActor.intersects(actor) && actor instanceof Usable && !(actor instanceof Collectible)) {
-                    usable = (Usable<Actor>) actor;
+                    @SuppressWarnings("unchecked")
+                    Usable<Actor> casted = (Usable<Actor>) actor;
+                    usable = casted;
                     return this.scheduleOn(mediatingActor);
                 }
             }

@@ -68,7 +68,7 @@ public class MissionImpossible implements SceneListener {
                 public void run(){
                     ripley.loseEnergy();
                 }
-            }, 0, 300);
+            }, 0, 100);
         });
 
         scene.getMessageBus().subscribeOnce(Ventilator.VENTILATOR_REPAIRED, v -> {

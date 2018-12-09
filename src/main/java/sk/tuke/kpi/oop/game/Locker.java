@@ -1,6 +1,6 @@
 package sk.tuke.kpi.oop.game;
 
-import sk.tuke.kpi.gamelib.ActorContainer;
+import sk.tuke.kpi.gamelib.Actor;
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
 import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.oop.game.items.Collectible;
@@ -10,7 +10,8 @@ import sk.tuke.kpi.oop.game.items.Usable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Locker extends AbstractActor implements Usable<Keeper> {
+@SuppressWarnings("rawtypes")
+public class Locker extends AbstractActor implements Usable<Actor> {
     private ArrayList<Collectible> store = new ArrayList<>(
         Arrays.asList(new Hammer())
     );
@@ -20,7 +21,7 @@ public class Locker extends AbstractActor implements Usable<Keeper> {
     }
 
     @Override
-    public void useWith(Keeper actor) {
+    public void useWith(Actor actor) {
         for (Collectible item: store) {
             getScene().addActor(item, actor.getPosX(), actor.getPosY());
         }
@@ -29,7 +30,7 @@ public class Locker extends AbstractActor implements Usable<Keeper> {
     }
 
     @Override
-    public Class<Keeper> getUsingActorClass() {
-        return Keeper.class;
+    public Class<Actor> getUsingActorClass() {
+        return Actor.class;
     }
 }
