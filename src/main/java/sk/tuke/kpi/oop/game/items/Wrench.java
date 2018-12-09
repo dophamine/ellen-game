@@ -9,6 +9,12 @@ public class Wrench extends BreakableTool<DefectiveLight> {
         super(2);
         setAnimation(new Animation("sprites/wrench.png", 16, 16 ));
     }
+
+    @Override
+    public Class<DefectiveLight> getUsingActorClass() {
+        return DefectiveLight.class;
+    }
+
     @Override
     public void useWith(DefectiveLight defectiveLight) {
         if (defectiveLight == null){

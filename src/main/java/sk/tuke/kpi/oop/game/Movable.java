@@ -1,4 +1,4 @@
-package sk.tuke.kpi.oop.game.characters;
+package sk.tuke.kpi.oop.game;
 
 import sk.tuke.kpi.gamelib.Actor;
 

@@ -2,6 +2,7 @@ package sk.tuke.kpi.oop.game;
 
 import sk.tuke.kpi.gamelib.*;
 import sk.tuke.kpi.oop.game.scenarios.FirstSteps;
+import sk.tuke.kpi.oop.game.scenarios.MissionImpossible;
 import sk.tuke.kpi.oop.game.scenarios.TrainingGameplay;
 
 public class Main {
@@ -15,14 +16,12 @@ public class Main {
 
         // vytvorenie sceny pre hru
         // pouzijeme implementaciu rozhrania `Scene` triedou `World`
-        Scene scene = new World("world");
+        Scene scene = new World("world", "maps/mission-impossible.tmx", new MissionImpossible.Factory());
 
         // pridanie sceny do hry
         game.addScene(scene);
 
-//        TrainingGameplay scenario = new TrainingGameplay();
-
-        scene.addListener(new FirstSteps());
+        scene.addListener(new MissionImpossible());
 
         // spustenie hry
         game.start();

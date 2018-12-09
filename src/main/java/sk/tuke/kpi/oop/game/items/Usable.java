@@ -1,5 +1,7 @@
 package sk.tuke.kpi.oop.game.items;
 
-public interface Usable<A>{
-    void useWith(A Actor);
+public interface Usable<T>{
+    void useWith(T actor);
+
+    Class<T> getUsingActorClass();
 }

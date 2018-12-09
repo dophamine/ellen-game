@@ -23,13 +23,6 @@ public class Reactor extends AbstractActor implements Repairable, Switchable{
     private boolean running;
     private Set<EnergyConsumer> devices;
 
-
-
-
-
-
-
-
     public Reactor () {
         temperature = 0;
         damage = 0;

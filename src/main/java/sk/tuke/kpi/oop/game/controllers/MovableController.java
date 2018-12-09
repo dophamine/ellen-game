@@ -4,8 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import sk.tuke.kpi.gamelib.Input;
 import sk.tuke.kpi.gamelib.KeyboardListener;
 import sk.tuke.kpi.oop.game.actions.Move;
-import sk.tuke.kpi.oop.game.characters.Direction;
-import sk.tuke.kpi.oop.game.characters.Movable;
+import sk.tuke.kpi.oop.game.Direction;
+import sk.tuke.kpi.oop.game.Movable;
 
 import java.util.*;
 
@@ -49,7 +49,7 @@ public class MovableController implements KeyboardListener {
     }
 
     private Direction calcDirection() {
-        // reversing
+        // reversing the list
         List<Input.Key> list = new ArrayList(pressedKeys);
         Collections.reverse(list);
 

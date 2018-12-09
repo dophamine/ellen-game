@@ -2,8 +2,8 @@ package sk.tuke.kpi.oop.game.actions;
 
 import org.jetbrains.annotations.Nullable;
 import sk.tuke.kpi.gamelib.actions.Action;
-import sk.tuke.kpi.oop.game.characters.Direction;
-import sk.tuke.kpi.oop.game.characters.Movable;
+import sk.tuke.kpi.oop.game.Direction;
+import sk.tuke.kpi.oop.game.Movable;
 
 
 public class Move implements Action<Movable> {
@@ -30,6 +30,9 @@ public class Move implements Action<Movable> {
 
         int speed = getActor().getSpeed();
 
+        int tmpPosX = getActor().getPosX();
+        int tmpPosY = getActor().getPosY();
+
         float length = (float)Math.sqrt((Math.pow(direction.getDx(), 2) + Math.pow(direction.getDy(), 2)));
         float dx = direction.getDx()/length;
         float dy = direction.getDy()/length;
@@ -38,6 +41,12 @@ public class Move implements Action<Movable> {
         int posY = Math.round(getActor().getPosY() + dy * speed);
 
         getActor().setPosition(posX , posY);
+
+        if (getActor().getScene().getMap().intersectsWithWall(getActor())) {
+            getActor().setPosition(tmpPosX , tmpPosY);
+            stop();
+        }
+
         duration -= deltaTime;
 
         if (isDone()) {

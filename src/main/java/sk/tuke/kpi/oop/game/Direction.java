@@ -1,4 +1,4 @@
-package sk.tuke.kpi.oop.game.characters;
+package sk.tuke.kpi.oop.game;
 
 public enum Direction {
     NORTH (0, 1),
@@ -27,7 +27,7 @@ public enum Direction {
         this.dy = dy;
     }
 
-    float getAngle() {
+    public float getAngle() {
         float angle = 0.f;
         switch (this) {
             case NORTH: angle = 0.f;

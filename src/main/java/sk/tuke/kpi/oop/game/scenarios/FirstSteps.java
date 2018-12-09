@@ -1,6 +1,7 @@
 package sk.tuke.kpi.oop.game.scenarios;
 
 import org.jetbrains.annotations.NotNull;
+import sk.tuke.kpi.gamelib.ActorContainer;
 import sk.tuke.kpi.gamelib.GameApplication;
 import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.SceneListener;
@@ -16,7 +17,7 @@ public class FirstSteps implements SceneListener {
     @Override
     public void sceneInitialized(@NotNull Scene scene) {
         scene.addActor(player,0,0);
-        Backpack backpack = (Backpack) player.getContainer();
+        ActorContainer<Collectible> backpack = player.getContainer();
         scene.getGame().pushActorContainer(player.getContainer());
 
         MovableController controller = new MovableController(player);
@@ -27,17 +28,12 @@ public class FirstSteps implements SceneListener {
 
         scene.addActor(new Ammo(), -10, 160);
 
-//        backpack.add(new Ammo());
-//        backpack.add(new Energy());
+        backpack.add(new Ammo());
+        backpack.add(new Energy());
     }
 
     @Override
     public void sceneUpdating(@NotNull Scene scene) {
-        Overlay overlay = scene.getGame().getOverlay();
-        int windowHeight = scene.getGame().getWindowSetup().getHeight();
-        int topOffset = GameApplication.STATUS_LINE_OFFSET;
-        int yTextPos = windowHeight - topOffset;
-
-        overlay.drawText(" | Energy: " + player.getEnergy() + " | Ammo: " + player.getBullets(), 90, yTextPos);
+        player.showRipleyState();
     }
 }

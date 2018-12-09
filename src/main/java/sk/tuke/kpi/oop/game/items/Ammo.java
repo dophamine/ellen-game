@@ -1,11 +1,10 @@
 package sk.tuke.kpi.oop.game.items;
 
-import sk.tuke.kpi.gamelib.Disposable;
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
 import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.oop.game.characters.Ripley;
 
-public class Ammo extends AbstractActor implements Usable<Ripley>, Disposable, Collectible {
+public class Ammo extends AbstractActor implements Usable<Ripley>, Collectible {
     final private int amount = 50;
 
     public Ammo() {
@@ -19,11 +18,11 @@ public class Ammo extends AbstractActor implements Usable<Ripley>, Disposable, C
 
     private void use(Ripley actor) {
         actor.setBullets(amount);
-        dispose();
+        actor.getContainer().remove(this);
     }
 
     @Override
-    public void dispose() {
-        getScene().removeActor(this);
+    public Class<Ripley> getUsingActorClass() {
+        return Ripley.class;
     }
 }
