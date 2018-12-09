@@ -40,11 +40,16 @@ public class Move implements Action<Movable> {
         int posX = Math.round(getActor().getPosX() + dx * speed);
         int posY = Math.round(getActor().getPosY() + dy * speed);
 
-        getActor().setPosition(posX , posY);
+        var map = getActor().getScene().getMap();
 
-        if (getActor().getScene().getMap().intersectsWithWall(getActor())) {
+        getActor().setPosition(posX , tmpPosY);
+        if (map.intersectsWithWall(getActor())) {
             getActor().setPosition(tmpPosX , tmpPosY);
-            stop();
+        }
+
+        getActor().setPosition(getActor().getPosX(), posY);
+        if (map.intersectsWithWall(getActor())) {
+            getActor().setPosition(getActor().getPosX() , tmpPosY);
         }
 
         duration -= deltaTime;
