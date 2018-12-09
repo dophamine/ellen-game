@@ -2,10 +2,9 @@ package sk.tuke.kpi.oop.game.scenarios;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import sk.tuke.kpi.gamelib.Actor;
-import sk.tuke.kpi.gamelib.ActorFactory;
-import sk.tuke.kpi.gamelib.Scene;
-import sk.tuke.kpi.gamelib.SceneListener;
+import sk.tuke.kpi.gamelib.*;
+import sk.tuke.kpi.gamelib.framework.Scenario;
+import sk.tuke.kpi.gamelib.map.SceneMap;
 import sk.tuke.kpi.oop.game.Locker;
 import sk.tuke.kpi.oop.game.Ventilator;
 import sk.tuke.kpi.oop.game.characters.Ripley;
@@ -24,24 +23,21 @@ public class MissionImpossible implements SceneListener {
         @Nullable
         @Override
         public Actor create(@Nullable String type, @Nullable String name) {
-            switch (name) {
-                case "access card":
-                    return new AccessCard();
-                case "door":
-                    return new LockedDoor();
-                case "ellen":
-                    return new Ripley();
-                case "energy":
-                    return new Energy();
-                case "locker":
-                    return new Locker();
-                case "ventilator":
-                    return new Ventilator();
-            }
-
-            switch (type) {
-                case "ripley":
-                    return new Ripley();
+            if (name != null) {
+                switch (name) {
+                    case "access card":
+                        return new AccessCard();
+                    case "door":
+                        return new LockedDoor();
+                    case "ellen":
+                        return new Ripley();
+                    case "energy":
+                        return new Energy();
+                    case "locker":
+                        return new Locker();
+                    case "ventilator":
+                        return new Ventilator();
+                }
             }
 
             return null;
@@ -59,13 +55,14 @@ public class MissionImpossible implements SceneListener {
         var movableController = scene.getInput().registerListener(new MovableController(ripley));
         var collectorController = scene.getInput().registerListener(new CollectorController(ripley));
 
-        scene.getMessageBus().subscribe(Ripley.RIPLEY_DIED, v -> {
+
+        scene.getMessageBus().subscribeOnce(Ripley.RIPLEY_DIED, v -> {
             movableController.dispose();
             collectorController.dispose();
         });
 
         Timer parasitesAttack = new Timer();
-        scene.getMessageBus().subscribe(Door.DOOR_OPENED, d -> {
+        scene.getMessageBus().subscribeOnce(Door.DOOR_OPENED, d -> {
             parasitesAttack.scheduleAtFixedRate(new TimerTask(){
                 @Override
                 public void run(){
@@ -74,7 +71,7 @@ public class MissionImpossible implements SceneListener {
             }, 0, 300);
         });
 
-        scene.getMessageBus().subscribe(Ventilator.VENTILATOR_REPAIRED, v -> {
+        scene.getMessageBus().subscribeOnce(Ventilator.VENTILATOR_REPAIRED, v -> {
             parasitesAttack.cancel();
         });
     }
