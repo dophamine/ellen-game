@@ -24,15 +24,9 @@ public class Bullet extends AbstractActor implements Fireable, Disposable {
     }
 
     @Override
-    public void updateMoving() {
-        Actor injured = getScene().getActors().stream()
-            // TODO remove checking for Ripley
-            .filter(actor -> actor.intersects(this) && actor instanceof Alive && !(actor instanceof Ripley))
-            .findFirst()
-            .orElse(null);
-
-        if (injured != null) {
-            ((Alive) injured).getHealth().drain(10);
+    public void collidedWithActor(Actor actor) {
+        if (actor instanceof Alive && !(actor instanceof Ripley)) {
+            ((Alive) actor).getHealth().drain(10);
             dispose();
         }
     }

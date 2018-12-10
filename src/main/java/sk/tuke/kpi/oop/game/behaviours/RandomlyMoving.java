@@ -25,8 +25,6 @@ public class RandomlyMoving implements Behaviour<Movable> {
                     timer.cancel();
                 }
 
-                if (Math.random() < 0.5) return;
-
                 if (action != null) {
                     action.stop();
                 }

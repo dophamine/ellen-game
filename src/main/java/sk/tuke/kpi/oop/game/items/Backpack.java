@@ -48,7 +48,6 @@ public class Backpack implements ActorContainer<Collectible> {
             return;
         }
 
-        // TODO Collections ...
         container.add(0, container.remove(container.size() - 1));
     }
 

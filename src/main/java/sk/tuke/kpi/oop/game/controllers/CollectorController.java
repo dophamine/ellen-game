@@ -60,7 +60,7 @@ public class CollectorController implements KeyboardListener {
         Scene scene = player.getScene();
 
         Actor anActor = scene.getActors().stream()
-            .filter(actor -> actor.intersects(player) && actor instanceof Usable && actor instanceof Collectible)
+            .filter(actor -> actor.intersects(player) && actor instanceof Usable && !(actor instanceof Collectible))
             .findFirst()
             .orElse(null);
 
@@ -75,7 +75,14 @@ public class CollectorController implements KeyboardListener {
     private void doUseFromBackpack() {
         if (player.getContainer().getSize() == 0) return;
 
-        var item = player.getContainer().peek();
+        Collectible item = null;
+
+        try {
+            item = player.getContainer().peek();
+        } catch (Exception e) {
+            item = null;
+        }
+
         if (item instanceof Collectible && item instanceof Usable) {
             @SuppressWarnings("unchecked")
             Use<Actor> action = new Use<Actor>((Usable<Actor>) item);

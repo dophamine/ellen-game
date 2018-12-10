@@ -86,14 +86,9 @@ public class Alien extends AbstractActor implements Movable, Enemy, Alive {
     }
 
     @Override
-    public void updateMoving() {
-        Actor injured = getScene().getActors().stream()
-            .filter(actor -> actor.intersects(this) && actor instanceof Alive && !(actor instanceof Enemy))
-            .findFirst()
-            .orElse(null);
-
-        if (injured != null) {
-            ((Alive) injured).getHealth().drain(1);
+    public void collidedWithActor(Actor actor) {
+        if (actor instanceof Alive && !(actor instanceof Enemy)) {
+            ((Alive) actor).getHealth().drain(1);
         }
     }
 
