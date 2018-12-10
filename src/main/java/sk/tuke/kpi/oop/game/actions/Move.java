@@ -11,7 +11,8 @@ public class Move<A extends Movable> implements Action<A> {
     private Direction direction;
     private float duration = 0.f;
     private A actor;
-    private boolean avoidObstacles = true;
+    private boolean avoidObstacles = false;
+    private boolean isStopped = false;
 
     public Move(Direction direction) {
         this.direction = direction;
@@ -30,7 +31,7 @@ public class Move<A extends Movable> implements Action<A> {
 
     @Override
     public void execute(float deltaTime) {
-        if (getActor() == null) return;
+        if (getActor() == null || isDone()) return;
 
         if (!isExecutedEarlier) {
             getActor().startedMoving(direction);
@@ -38,13 +39,19 @@ public class Move<A extends Movable> implements Action<A> {
         }
 
         int speed = getActor().getSpeed();
+        var dx = direction.getDx();
+        var dy = direction.getDy();
+//        double length = Math.sqrt((Math.pow(direction.getDx(), 2) + Math.pow(direction.getDy(), 2)));
+//        double dx = direction.getDx()/length;
+//        double dy = direction.getDy()/length;
 
-        float length = (float)Math.sqrt((Math.pow(direction.getDx(), 2) + Math.pow(direction.getDy(), 2)));
-        float dx = direction.getDx()/length;
-        float dy = direction.getDy()/length;
+        int posX =  (getActor().getPosX() + direction.getDx() * speed);
+        int posY = (getActor().getPosY() + direction.getDy() * speed);
 
-        int posX = Math.round(getActor().getPosX() + dx * speed);
-        int posY = Math.round(getActor().getPosY() + dy * speed);
+//        System.out.println((getActor().getPosX() + dx * speed) + " " + (int)(getActor().getPosX() + dx * speed) + " || " + dx + " " + dy);
+
+        int tmpPosX = getActor().getPosX();
+        int tmpPosY = getActor().getPosY();
 
         if (avoidObstacles) {
             tryToAvoidObstacles(posX, posY);
@@ -53,8 +60,9 @@ public class Move<A extends Movable> implements Action<A> {
             getActor().setPosition(posX, posY);
 
             if (map.intersectsWithWall(getActor())) {
-                getActor().collidedWithWall();
                 stop();
+                getActor().setPosition(tmpPosX, tmpPosY);
+                getActor().collidedWithWall();
                 return;
             }
         }
@@ -65,8 +73,8 @@ public class Move<A extends Movable> implements Action<A> {
 
         duration -= deltaTime;
 
-        if (isDone() && getActor() != null) {
-            getActor().stoppedMoving();
+        if (isDone()) {
+            stop();
         }
     }
 
@@ -83,19 +91,21 @@ public class Move<A extends Movable> implements Action<A> {
 
     @Override
     public boolean isDone() {
-        return duration <= 1e-5;
+        return duration <= 1e-5 || direction == Direction.NONE;
     }
 
     @Override
     public void reset() {
-        actor = null;
         duration = 0.f;
         isExecutedEarlier = false;
+        isStopped = false;
     }
 
     public void stop() {
-        duration = 0.f;
+        if (isStopped) return;
 
+        duration = 0.f;
+        isStopped = true;
         if (getActor() != null) {
             getActor().stoppedMoving();
         }

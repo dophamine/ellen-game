@@ -28,13 +28,19 @@ public class Take<A extends Actor> extends AbstractAction<Keeper<A>> {
         }
 
         if (takable != null) {
+            boolean backpackIsFull = false;
+
             try {
                 getActor().getContainer().add(takable);
             } catch (IllegalStateException ex) {
+                backpackIsFull = true;
                 displayErrorMessage(ex.getMessage());
             } catch (Exception ex) {
-                getActor().getScene().removeActor(takable);
                 displayErrorMessage(ex.getMessage());
+            }
+
+            if (!backpackIsFull) {
+                getActor().getScene().removeActor(takable);
             }
         }
     }

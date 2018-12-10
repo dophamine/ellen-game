@@ -60,7 +60,7 @@ public enum Direction {
 
     public Direction combine(Direction other) {
         for (Direction dir :Direction.values()) {
-            if (dir.dx == (dx != 0 ? dx : other.dx) && dir.dy == (dy != 0 ? dy : other.dy)) {
+            if (dir.dx == dx + other.dx && dir.dy == dy + other.dy) {
                 return dir;
             }
         }
