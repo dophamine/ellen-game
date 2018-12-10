@@ -2,9 +2,10 @@ package sk.tuke.kpi.oop.game.items;
 
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
 import sk.tuke.kpi.gamelib.graphics.Animation;
-import sk.tuke.kpi.oop.game.characters.Ripley;
+import sk.tuke.kpi.oop.game.Keeper;
+import sk.tuke.kpi.oop.game.characters.Armed;
 
-public class Ammo extends AbstractActor implements Usable<Ripley>, Collectible {
+public class Ammo extends AbstractActor implements Usable<Armed>, Collectible {
     final private int amount = 50;
 
     public Ammo() {
@@ -12,17 +13,24 @@ public class Ammo extends AbstractActor implements Usable<Ripley>, Collectible {
     }
 
     @Override
-    public void useWith(Ripley Actor) {
+    public void useWith(Armed Actor) {
         use(Actor);
     }
 
-    private void use(Ripley actor) {
-        actor.setBullets(amount);
-        actor.getContainer().remove(this);
+    private void use(Armed actor) {
+        actor.getFirearm().reload(amount);
+
+        if (actor instanceof Keeper) {
+            @SuppressWarnings("unchecked")
+            Keeper<Collectible> keeper = (Keeper<Collectible>) actor;
+            keeper.getContainer().remove(this);
+        } else {
+            getScene().removeActor(this);
+        }
     }
 
     @Override
-    public Class<Ripley> getUsingActorClass() {
-        return Ripley.class;
+    public Class<Armed> getUsingActorClass() {
+        return Armed.class;
     }
 }

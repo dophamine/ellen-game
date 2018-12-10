@@ -1,5 +1,6 @@
 package sk.tuke.kpi.oop.game.characters;
 
+import org.jetbrains.annotations.Nullable;
 import sk.tuke.kpi.gamelib.ActorContainer;
 import sk.tuke.kpi.gamelib.GameApplication;
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
@@ -11,18 +12,19 @@ import sk.tuke.kpi.oop.game.Keeper;
 import sk.tuke.kpi.oop.game.Movable;
 import sk.tuke.kpi.oop.game.items.Backpack;
 import sk.tuke.kpi.oop.game.items.Collectible;
+import sk.tuke.kpi.oop.game.weapons.Firearm;
+import sk.tuke.kpi.oop.game.weapons.Gun;
 
-public class Ripley extends AbstractActor implements Movable, Keeper<Collectible> {
+public class Ripley extends AbstractActor implements Movable, Keeper<Collectible>, Alive, Armed {
     public static Topic<Ripley> RIPLEY_DIED = new Topic<>("Ripley died", Ripley.class);
-    final static int MAX_ENERGY = 100;
     final static int MAX_BULLETS = 500;
 
     private Animation walkAnimation;
     private int speed = 2;
-    private int energy = 85;
-    private int bullets = 0;
     private Backpack backpack = new Backpack("Backpack", 10);
     private Animation dieAnimation;
+    private Health health;
+    private Firearm gun;
 
     public Ripley() {
         super("Ellen");
@@ -30,27 +32,35 @@ public class Ripley extends AbstractActor implements Movable, Keeper<Collectible
         dieAnimation = new Animation("sprites/player_die.png", 32, 32, 0.1f, Animation.PlayMode.ONCE);
         setAnimation(walkAnimation);
         walkAnimation.stop();
+
+        health = new Health(100);
+        gun = new Gun(150, 250);
+
+        Ripley self = this;
+        health.onExhaustion(new Health.ExhaustionEffect() {
+            @Override
+            public void apply() {
+                setAnimation(dieAnimation);
+                getScene().getMessageBus().publish(RIPLEY_DIED, self);
+                getScene().cancelActions(self);
+            }
+        });
     }
 
-    public int getEnergy() {
-        return energy;
+    @Override
+    public Health getHealth() {
+        return health;
     }
 
-    public void setEnergy(int energy) {
-        this.energy = energy < 0 ? 0 : energy > MAX_ENERGY ? MAX_ENERGY : energy;
-
-        if (energy == 0) {
-            setAnimation(dieAnimation);
-            getScene().getMessageBus().publish(RIPLEY_DIED, this);
-        }
+    @Override
+    @Nullable
+    public Firearm getFirearm() {
+        return gun;
     }
 
-    public int getBullets() {
-        return bullets;
-    }
-
-    public void setBullets(int bullets) {
-        this.bullets = bullets < 0 ? 0 : bullets > MAX_BULLETS ? MAX_BULLETS : bullets;
+    @Override
+    public void setFirearm(Firearm weapon) {
+        gun = weapon;
     }
 
     @Override
@@ -80,10 +90,13 @@ public class Ripley extends AbstractActor implements Movable, Keeper<Collectible
         int topOffset = GameApplication.STATUS_LINE_OFFSET;
         int yTextPos = windowHeight - topOffset;
 
-        overlay.drawText(" | Energy: " + getEnergy() + " | Ammo: " + getBullets(), 90, yTextPos);
+        overlay.drawText(
+            " | HP: " + getHealth().getValue() + "/" + getHealth().getMaxValue() +
+            " | Ammo: " + getFirearm().getAmmo(), 90, yTextPos
+        );
     }
 
     public void loseEnergy() {
-        setEnergy(energy - 1);
+        getHealth().drain(1);
     }
 }

@@ -17,13 +17,27 @@ public class Door extends AbstractActor implements Openable, Usable<Actor> {
     public static final Topic<Door> DOOR_OPENED = Topic.create("door opened", Door.class);
     public static final Topic<Door> DOOR_CLOSED = Topic.create("door closed", Door.class);
 
+    public enum Orientation {
+        HORIZONTAL, VERTICAL
+    }
+
+    private String name;
+    private Orientation orientation;
     private boolean opened = false;
     private List<MapTile> tiles = null;
 
-    public Door() {
-        setAnimation(new Animation("sprites/vdoor.png", 16,32, 0.1f,
-            opened ? Animation.PlayMode.ONCE : Animation.PlayMode.ONCE_REVERSED)
-        );
+    public Door(String name, Orientation orientation) {
+        super(name);
+        this.name = name;
+        this.orientation = orientation;
+
+        Animation.PlayMode playMode = opened ? Animation.PlayMode.ONCE : Animation.PlayMode.ONCE_REVERSED;
+
+        if (orientation == Orientation.HORIZONTAL) {
+            setAnimation(new Animation("sprites/hdoor.png", 32,16, 0.1f, playMode));
+        } else {
+            setAnimation(new Animation("sprites/vdoor.png", 16,32, 0.1f, playMode));
+        }
     }
 
     @Override
@@ -92,8 +106,8 @@ public class Door extends AbstractActor implements Openable, Usable<Actor> {
 
             for (int h = 0; h < getAnimation().getHeight() / map.getTileHeight(); h++) {
                 MapTile tile = map.getTile(
-                    getPosX()/map.getTileWidth() - 1 + w,
-                    getPosY()/map.getTileHeight() - 1 + h
+                    getPosX()/map.getTileWidth() + w,
+                    getPosY()/map.getTileHeight() + h
                 );
 
                 foundTiles.add(tile);

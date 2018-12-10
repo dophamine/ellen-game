@@ -15,6 +15,7 @@ import sk.tuke.kpi.oop.game.items.Energy;
 import sk.tuke.kpi.oop.game.openables.Door;
 import sk.tuke.kpi.oop.game.openables.LockedDoor;
 
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -28,7 +29,7 @@ public class MissionImpossible implements SceneListener {
                     case "access card":
                         return new AccessCard();
                     case "door":
-                        return new LockedDoor();
+                        return new LockedDoor(name, getDoorOrientation(type));
                     case "ellen":
                         return new Ripley();
                     case "energy":
@@ -41,6 +42,10 @@ public class MissionImpossible implements SceneListener {
             }
 
             return null;
+        }
+
+        private Door.Orientation getDoorOrientation(String type) {
+            return Objects.equals(type, "horizontal") ? Door.Orientation.HORIZONTAL : Door.Orientation.VERTICAL;
         }
     }
 

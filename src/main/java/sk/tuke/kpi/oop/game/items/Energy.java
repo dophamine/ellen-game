@@ -2,22 +2,29 @@ package sk.tuke.kpi.oop.game.items;
 
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
 import sk.tuke.kpi.gamelib.graphics.Animation;
-import sk.tuke.kpi.oop.game.characters.Ripley;
+import sk.tuke.kpi.oop.game.Keeper;
+import sk.tuke.kpi.oop.game.characters.Alive;
 
-public class Energy extends AbstractActor implements Usable<Ripley>, Collectible {
+public class Energy extends AbstractActor implements Usable<Alive>, Collectible {
     public Energy() {
         setAnimation(new Animation("sprites/energy.png", 16,16));
     }
 
     @Override
-    public void useWith(Ripley actor) {
-        actor.setEnergy(100);
+    public void useWith(Alive actor) {
+        actor.getHealth().restore();
 
-        actor.getContainer().remove(this);
+        if (actor instanceof Keeper) {
+            @SuppressWarnings("unchecked")
+            Keeper<Collectible> keeper = (Keeper<Collectible>) actor;
+            keeper.getContainer().remove(this);
+        } else {
+            getScene().removeActor(this);
+        }
     }
 
     @Override
-    public Class<Ripley> getUsingActorClass() {
-        return Ripley.class;
+    public Class<Alive> getUsingActorClass() {
+        return Alive.class;
     }
 }

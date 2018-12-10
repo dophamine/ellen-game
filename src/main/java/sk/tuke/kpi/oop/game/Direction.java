@@ -1,15 +1,42 @@
 package sk.tuke.kpi.oop.game;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 public enum Direction {
     NORTH (0, 1),
     EAST (1, 0),
     SOUTH (0, -1),
     WEST (-1, 0),
     NONE(0, 0),
-    NORTH_EAST (1, 1),
-    NORTH_WEST (-1, 1),
-    SOUTH_EAST (1, -1),
-    SOUTH_WEST (-1, -1);
+    NORTHEAST(1, 1),
+    NORTHWEST(-1, 1),
+    SOUTHEAST(1, -1),
+    SOUTHWEST(-1, -1);
+
+    private static class DirectionHelper {
+        public static HashMap<Direction, Float> directionToAngleMap = new HashMap<>(Map.ofEntries(
+            Map.entry(NORTH, 0.f),
+            Map.entry(NORTHEAST, 360 - 45.f),
+            Map.entry(EAST, 360 - 90.f),
+            Map.entry(SOUTHEAST, 360 - 135.f),
+            Map.entry(SOUTH, 360 - 180.f),
+            Map.entry(SOUTHWEST, 360 - 225.f),
+            Map.entry(WEST, 360 - 270.f),
+            Map.entry(NORTHWEST, 360 - 315.f)
+        ));
+    }
+
+    public static Direction fromAngle(float angle) {
+        for (var entry : DirectionHelper.directionToAngleMap.entrySet()) {
+            if (Objects.equals(angle, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+
+        return NONE;
+    }
 
     private final int dx;
     private final int dy;
@@ -28,28 +55,9 @@ public enum Direction {
     }
 
     public float getAngle() {
-        float angle = 0.f;
-        switch (this) {
-            case NORTH: angle = 0.f;
-                break;
-            case NORTH_EAST: angle = 45.f;
-                break;
-            case EAST: angle = 90.f;
-                break;
-            case SOUTH_EAST: angle = 135.f;
-                break;
-            case SOUTH: angle = 180.f;
-                break;
-            case SOUTH_WEST: angle = 225.f;
-                break;
-            case WEST: angle = 270.f;
-                break;
-            case NORTH_WEST: angle = 315.f;
-                break;
-            default:
-        }
+        float angle = DirectionHelper.directionToAngleMap.getOrDefault(this, 0.f);
 
-        return 360.f - angle;
+        return angle;
     }
 
     public Direction combine(Direction other) {

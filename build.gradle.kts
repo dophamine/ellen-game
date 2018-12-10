@@ -6,7 +6,7 @@ plugins {
 group = "sk.tuke.kpi.oop"
 version = "1.0"
 
-val gamelibVersion = "2.4.1"
+val gamelibVersion = "2.4.2"
 
 configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_10
