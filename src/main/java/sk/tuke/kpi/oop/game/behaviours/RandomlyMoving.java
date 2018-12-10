@@ -17,7 +17,7 @@ public class RandomlyMoving implements Behaviour<Movable> {
         Timer timer = new Timer();
 
         timer.scheduleAtFixedRate(new TimerTask(){
-            Move action = null;
+            Move<Movable> action = null;
 
             @Override
             public void run(){
@@ -38,7 +38,7 @@ public class RandomlyMoving implements Behaviour<Movable> {
                 long duration = new Random().nextInt((3000 - min) + 1) + min;
 
                 Direction direction = Direction.values()[(int)index];
-                action = new Move(direction, duration);
+                action = new Move<Movable>(direction, duration);
                 action.scheduleOn(actor);
             }
       }, 0, 500);

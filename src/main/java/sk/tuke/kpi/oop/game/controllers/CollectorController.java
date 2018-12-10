@@ -42,12 +42,12 @@ public class CollectorController implements KeyboardListener {
     }
 
     private void doTake() {
-        Take action = new Take(Collectible.class);
+        Take<Collectible> action = new Take<>(Collectible.class);
         action.scheduleOn(actor);
     }
 
     private void doDrop() {
-        Drop action = new Drop();
+        Drop<Collectible> action = new Drop<>();
         action.scheduleOn(actor);
     }
 
@@ -56,7 +56,7 @@ public class CollectorController implements KeyboardListener {
     }
 
     private void doUseNearest() {
-        Use action = new Use(null);
+        Use<Actor> action = new Use<>(null);
         action.scheduleOnIntersectingWith(actor);
     }
 
@@ -64,7 +64,7 @@ public class CollectorController implements KeyboardListener {
         Collectible item = actor.getContainer().peek();
         if (item != null) {
             @SuppressWarnings("unchecked")
-            Use action = new Use((Usable<Actor>) item);
+            Use<Actor> action = new Use<Actor>((Usable<Actor>) item);
             action.scheduleOnIntersectingWith(actor);
         }
     }

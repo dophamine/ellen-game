@@ -8,10 +8,10 @@ import sk.tuke.kpi.gamelib.framework.actions.AbstractAction;
 import sk.tuke.kpi.oop.game.items.Collectible;
 import sk.tuke.kpi.oop.game.items.Usable;
 
-public class Use extends AbstractAction<Actor> {
-    private Usable<Actor> usable;
+public class Use<A extends Actor> extends AbstractAction<A> {
+    private Usable<A> usable;
 
-    public Use(@Nullable Usable<Actor> usable) {
+    public Use(@Nullable Usable<A> usable) {
         this.usable = usable;
     }
 
@@ -24,7 +24,7 @@ public class Use extends AbstractAction<Actor> {
         usable.useWith(getActor());
     }
 
-    public Disposable scheduleOnIntersectingWith(Actor mediatingActor) {
+    public Disposable scheduleOnIntersectingWith(A mediatingActor) {
         Scene scene = mediatingActor.getScene();
         if (scene == null) return null;
 
@@ -34,7 +34,7 @@ public class Use extends AbstractAction<Actor> {
             for (Actor actor : scene) {
                 if (mediatingActor.intersects(actor) && actor instanceof Usable && !(actor instanceof Collectible)) {
                     @SuppressWarnings("unchecked")
-                    Usable<Actor> casted = (Usable<Actor>) actor;
+                    Usable<A> casted = (Usable<A>) actor;
                     usable = casted;
                     return this.scheduleOn(mediatingActor);
                 }
@@ -46,10 +46,11 @@ public class Use extends AbstractAction<Actor> {
 
     private Disposable scheduleOnWithUsable(Actor mediatingActor) {
         Scene scene = mediatingActor.getScene();
-        Class<Actor> usingActorClass = usable.getUsingActorClass();
+        Class<A> usingActorClass = usable.getUsingActorClass();
         for (Actor actor : scene) {
             if (mediatingActor.intersects(actor) && usingActorClass.isInstance(actor)) {
-                return this.scheduleOn(usingActorClass.cast(actor));
+                var a = usingActorClass.cast(actor);
+                return this.scheduleOn(a);
             }
         }
 

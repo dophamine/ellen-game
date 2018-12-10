@@ -17,7 +17,7 @@ public class MovableController implements KeyboardListener {
         Map.entry(Input.Key.DOWN, Direction.SOUTH),
         Map.entry(Input.Key.LEFT, Direction.WEST)
     );
-    private Move moveAction;
+    private Move<Movable> moveAction;
     private Set<Input.Key> pressedKeys = new LinkedHashSet<>();
 
     public MovableController(Movable actor) {
@@ -66,7 +66,7 @@ public class MovableController implements KeyboardListener {
             moveAction.stop();
         }
 
-        moveAction = new Move(calcDirection(), Integer.MAX_VALUE);
+        moveAction = new Move<Movable>(calcDirection(), Integer.MAX_VALUE);
         moveAction.scheduleOn(actor);
     }
 }

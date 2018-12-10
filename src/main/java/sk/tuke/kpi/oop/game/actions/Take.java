@@ -1,14 +1,14 @@
 package sk.tuke.kpi.oop.game.actions;
 
+import sk.tuke.kpi.gamelib.Actor;
 import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.framework.actions.AbstractAction;
 import sk.tuke.kpi.oop.game.Keeper;
-import sk.tuke.kpi.oop.game.items.Collectible;
 
-public class Take extends AbstractAction<Keeper<Collectible>> {
-    Class<Collectible> takableActorsClass;
+public class Take<A extends Actor> extends AbstractAction<Keeper<A>> {
+    Class<A> takableActorsClass;
 
-    public Take(Class<Collectible> takableActorsClass) {
+    public Take(Class<A> takableActorsClass) {
         this.takableActorsClass = takableActorsClass;
     }
 
@@ -19,23 +19,31 @@ public class Take extends AbstractAction<Keeper<Collectible>> {
             return;
         }
 
-        var collectible = getActor().getScene().getActors().stream()
-            .filter(takable -> takableActorsClass.isInstance(takable) && takable.intersects(getActor()))
-            .map(actor -> takableActorsClass.cast(actor))
-            .findFirst()
-            .orElse(null);
+//        var collectible = getActor().getScene().getActors().stream()
+//            .filter(takable -> takableActorsClass.isInstance(takable) && takable.intersects(getActor()))
+//            .findFirst()
+//            .map(actor -> takableActorsClass.cast(actor))
+//            .orElse(null);
 
-        if (collectible != null) {
+        A takable = null;
+        for (var actor: getActor().getScene().getActors()) {
+            if (takableActorsClass.isInstance(actor) && actor.intersects(getActor())) {
+                takable = takableActorsClass.cast(actor);
+                break;
+            }
+        }
+
+        if (takable != null) {
             try {
-                getActor().getContainer().add(collectible);
+                getActor().getContainer().add(takable);
             } catch (IllegalStateException ex) {
                 displayErrorMessage(ex.getMessage());
             } catch (Exception ex) {
-                getActor().getScene().removeActor(collectible);
+                getActor().getScene().removeActor(takable);
                 displayErrorMessage(ex.getMessage());
             }
 
-            getActor().getScene().removeActor(collectible);
+            getActor().getScene().removeActor(takable);
         }
     }
 

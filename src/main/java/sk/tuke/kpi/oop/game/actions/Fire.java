@@ -6,10 +6,11 @@ import sk.tuke.kpi.oop.game.characters.Armed;
 import sk.tuke.kpi.oop.game.weapons.Fireable;
 import sk.tuke.kpi.oop.game.weapons.Firearm;
 
-public class Fire extends AbstractAction<Armed> {
+public class Fire<A extends Armed> extends AbstractAction<A> {
     @Override
     public void execute(float deltaTime) {
         setDone(true);
+        if (getActor() == null) return;
         Firearm gun = getActor().getFirearm();
         if (gun == null) return;
 
@@ -23,6 +24,6 @@ public class Fire extends AbstractAction<Armed> {
 
         getActor().getScene().addActor(bullet, getActor().getPosX() + 16 /2, getActor().getPosY() + 32);
 
-        new Move(direction, Integer.MAX_VALUE, false).scheduleOn(bullet);
+        new Move<Fireable>(direction, Integer.MAX_VALUE, false).scheduleOn(bullet);
     }
 }
