@@ -1,5 +1,7 @@
 package sk.tuke.kpi.oop.game.characters;
 
-public interface Alive {
+import sk.tuke.kpi.gamelib.Actor;
+
+public interface Alive extends Actor {
     Health getHealth();
 }

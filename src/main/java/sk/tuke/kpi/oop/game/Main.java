@@ -1,10 +1,12 @@
 package sk.tuke.kpi.oop.game;
 
-import sk.tuke.kpi.gamelib.*;
+import sk.tuke.kpi.gamelib.Game;
+import sk.tuke.kpi.gamelib.GameApplication;
+import sk.tuke.kpi.gamelib.Input;
+import sk.tuke.kpi.gamelib.Scene;
+import sk.tuke.kpi.gamelib.WindowSetup;
+import sk.tuke.kpi.gamelib.World;
 import sk.tuke.kpi.oop.game.scenarios.EscapeRoom;
-import sk.tuke.kpi.oop.game.scenarios.FirstSteps;
-import sk.tuke.kpi.oop.game.scenarios.MissionImpossible;
-import sk.tuke.kpi.oop.game.scenarios.TrainingGameplay;
 
 public class Main {
     public static void main(String[] args){

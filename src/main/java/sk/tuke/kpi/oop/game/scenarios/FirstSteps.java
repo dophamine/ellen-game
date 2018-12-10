@@ -2,14 +2,14 @@ package sk.tuke.kpi.oop.game.scenarios;
 
 import org.jetbrains.annotations.NotNull;
 import sk.tuke.kpi.gamelib.ActorContainer;
-import sk.tuke.kpi.gamelib.GameApplication;
 import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.SceneListener;
-import sk.tuke.kpi.gamelib.graphics.Overlay;
 import sk.tuke.kpi.oop.game.characters.Ripley;
 import sk.tuke.kpi.oop.game.controllers.CollectorController;
 import sk.tuke.kpi.oop.game.controllers.MovableController;
-import sk.tuke.kpi.oop.game.items.*;
+import sk.tuke.kpi.oop.game.items.Ammo;
+import sk.tuke.kpi.oop.game.items.Collectible;
+import sk.tuke.kpi.oop.game.items.Energy;
 
 public class FirstSteps implements SceneListener {
     private Ripley player = new Ripley();

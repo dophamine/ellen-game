@@ -3,7 +3,7 @@ package sk.tuke.kpi.oop.game.weapons;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class Firearm {
-    private int ammo = 0;
+    private int ammo;
     private int maxAmmo;
 
     public Firearm(int initAmmo) {

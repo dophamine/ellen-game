@@ -37,6 +37,7 @@ public class CollectorController implements KeyboardListener {
             case B:
                 doUseFromBackpack();
                 break;
+            default:
         }
     }
 

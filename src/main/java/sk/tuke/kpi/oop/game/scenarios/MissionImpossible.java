@@ -2,9 +2,10 @@ package sk.tuke.kpi.oop.game.scenarios;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import sk.tuke.kpi.gamelib.*;
-import sk.tuke.kpi.gamelib.framework.Scenario;
-import sk.tuke.kpi.gamelib.map.SceneMap;
+import sk.tuke.kpi.gamelib.Actor;
+import sk.tuke.kpi.gamelib.ActorFactory;
+import sk.tuke.kpi.gamelib.Scene;
+import sk.tuke.kpi.gamelib.SceneListener;
 import sk.tuke.kpi.oop.game.Locker;
 import sk.tuke.kpi.oop.game.Ventilator;
 import sk.tuke.kpi.oop.game.characters.Ripley;
@@ -38,6 +39,8 @@ public class MissionImpossible implements SceneListener {
                         return new Locker();
                     case "ventilator":
                         return new Ventilator();
+                    default:
+                        return null;
                 }
             }
 

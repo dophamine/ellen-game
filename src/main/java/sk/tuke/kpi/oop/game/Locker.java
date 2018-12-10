@@ -9,10 +9,11 @@ import sk.tuke.kpi.oop.game.items.Usable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @SuppressWarnings("rawtypes")
 public class Locker extends AbstractActor implements Usable<Actor> {
-    private ArrayList<Collectible> store = new ArrayList<>(
+    private List<Collectible> store = new ArrayList<>(
         Arrays.asList(new Hammer())
     );
 

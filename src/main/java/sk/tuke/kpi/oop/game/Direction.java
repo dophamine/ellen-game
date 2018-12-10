@@ -16,7 +16,7 @@ public enum Direction {
     SOUTHWEST(-1, -1);
 
     private static class DirectionHelper {
-        public static HashMap<Direction, Float> directionToAngleMap = new HashMap<>(Map.ofEntries(
+        public static Map<Direction, Float> directionToAngleMap = new HashMap<>(Map.ofEntries(
             Map.entry(NORTH, 0.f),
             Map.entry(NORTHEAST, 360 - 45.f),
             Map.entry(EAST, 360 - 90.f),
@@ -55,9 +55,7 @@ public enum Direction {
     }
 
     public float getAngle() {
-        float angle = DirectionHelper.directionToAngleMap.getOrDefault(this, 0.f);
-
-        return angle;
+        return DirectionHelper.directionToAngleMap.getOrDefault(this, 0.f);
     }
 
     public Direction combine(Direction other) {

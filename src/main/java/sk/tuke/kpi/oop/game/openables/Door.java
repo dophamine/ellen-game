@@ -21,15 +21,11 @@ public class Door extends AbstractActor implements Openable, Usable<Actor> {
         HORIZONTAL, VERTICAL
     }
 
-    private String name;
-    private Orientation orientation;
     private boolean opened = false;
     private List<MapTile> tiles = null;
 
     public Door(String name, Orientation orientation) {
         super(name);
-        this.name = name;
-        this.orientation = orientation;
 
         Animation.PlayMode playMode = opened ? Animation.PlayMode.ONCE : Animation.PlayMode.ONCE_REVERSED;
 

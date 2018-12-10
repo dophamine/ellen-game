@@ -38,7 +38,7 @@ public class MovableController implements KeyboardListener {
             pressedKeys.remove(key);
 
             if (moveAction != null) {
-                if (pressedKeys.size() == 0) {
+                if (pressedKeys.isEmpty()) {
                     moveAction.stop();
                     moveAction = null;
                 } else {

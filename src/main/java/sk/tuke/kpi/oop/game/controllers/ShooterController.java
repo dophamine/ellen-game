@@ -7,7 +7,7 @@ import sk.tuke.kpi.oop.game.actions.Fire;
 import sk.tuke.kpi.oop.game.characters.Armed;
 
 public class ShooterController implements KeyboardListener {
-    private Armed actor = null;
+    private Armed actor;
 
     public ShooterController(Armed actor) {
         this.actor = actor;
