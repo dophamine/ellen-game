@@ -10,6 +10,7 @@ public class Move<A extends Movable> implements Action<A> {
     private boolean isExecutedEarlier = false;
     private Direction direction;
     private float duration = 0.f;
+    private float initialDuration;
     private A actor;
     private boolean avoidObstacles = false;
     private boolean isStopped = false;
@@ -20,12 +21,14 @@ public class Move<A extends Movable> implements Action<A> {
 
     public Move(Direction direction, float duration) {
         this.direction = direction;
-        this.duration = duration;
+        this.duration = duration < 0 ? 0.f : duration;
+        this.initialDuration = this.duration;
     }
 
     public Move(Direction direction, float duration, boolean avoidObstacles) {
         this.direction = direction;
-        this.duration = duration;
+        this.duration = duration < 0 ? 0.f : duration;
+        this.initialDuration = this.duration;
         this.avoidObstacles = avoidObstacles;
     }
 
@@ -39,16 +42,12 @@ public class Move<A extends Movable> implements Action<A> {
         }
 
         int speed = getActor().getSpeed();
-        var dx = direction.getDx();
-        var dy = direction.getDy();
 //        double length = Math.sqrt((Math.pow(direction.getDx(), 2) + Math.pow(direction.getDy(), 2)));
 //        double dx = direction.getDx()/length;
 //        double dy = direction.getDy()/length;
 
         int posX =  (getActor().getPosX() + direction.getDx() * speed);
         int posY = (getActor().getPosY() + direction.getDy() * speed);
-
-//        System.out.println((getActor().getPosX() + dx * speed) + " " + (int)(getActor().getPosX() + dx * speed) + " || " + dx + " " + dy);
 
         int tmpPosX = getActor().getPosX();
         int tmpPosY = getActor().getPosY();
@@ -91,12 +90,13 @@ public class Move<A extends Movable> implements Action<A> {
 
     @Override
     public boolean isDone() {
-        return duration <= 1e-5 || direction == Direction.NONE;
+        return duration <= 1e-5 && isExecutedEarlier;
     }
 
     @Override
     public void reset() {
-        duration = 0.f;
+        setActor(null);
+        duration = initialDuration;
         isExecutedEarlier = false;
         isStopped = false;
     }

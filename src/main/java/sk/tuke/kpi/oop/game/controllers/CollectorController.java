@@ -61,6 +61,8 @@ public class CollectorController implements KeyboardListener {
     }
 
     private void doUseFromBackpack() {
+        if (actor.getContainer().getSize() == 0) return;
+
         var item = actor.getContainer().peek();
         if (item instanceof Collectible && item instanceof Usable) {
             @SuppressWarnings("unchecked")

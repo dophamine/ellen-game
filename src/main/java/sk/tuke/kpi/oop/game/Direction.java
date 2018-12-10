@@ -15,7 +15,7 @@ public enum Direction {
     SOUTHEAST(1, -1),
     SOUTHWEST(-1, -1);
 
-    private static class DirectionHelper {
+        private static class DirectionHelper {
         public static Map<Direction, Float> directionToAngleMap = new HashMap<>(Map.ofEntries(
             Map.entry(NORTH, 0.f),
             Map.entry(NORTHEAST, 360 - 45.f),
@@ -36,6 +36,12 @@ public enum Direction {
         }
 
         return NONE;
+    }
+
+    private static int clamp(int value) {
+        int min = -1;
+        int max = 1;
+        return value < min ? min : value > max ? max : value;
     }
 
     private final int dx;
@@ -60,7 +66,10 @@ public enum Direction {
 
     public Direction combine(Direction other) {
         for (Direction dir :Direction.values()) {
-            if (dir.dx == dx + other.dx && dir.dy == dy + other.dy) {
+            int newDx = clamp(dx + other.dx);
+            int newDy = clamp(dy + other.dy);
+
+            if (dir.dx == newDx && dir.dy == newDy) {
                 return dir;
             }
         }
