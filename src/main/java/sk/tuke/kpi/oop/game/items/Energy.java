@@ -20,9 +20,9 @@ public class Energy extends AbstractActor implements Usable<Alive>, Collectible 
             @SuppressWarnings("unchecked")
             Keeper<Collectible> keeper = (Keeper<Collectible>) actor;
             keeper.getContainer().remove(this);
-        } else {
-            getScene().removeActor(this);
         }
+
+        getScene().removeActor(this);
     }
 
     @Override

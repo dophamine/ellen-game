@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import sk.tuke.kpi.gamelib.Actor;
 import sk.tuke.kpi.gamelib.Input;
 import sk.tuke.kpi.gamelib.KeyboardListener;
+import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.oop.game.Keeper;
 import sk.tuke.kpi.oop.game.actions.Drop;
 import sk.tuke.kpi.oop.game.actions.Shift;
@@ -13,10 +14,10 @@ import sk.tuke.kpi.oop.game.items.Collectible;
 import sk.tuke.kpi.oop.game.items.Usable;
 
 public class CollectorController implements KeyboardListener {
-    private Keeper<Collectible> actor;
+    private Keeper<Collectible> player;
 
-    public CollectorController(Keeper<Collectible> actor) {
-        this.actor = actor;
+    public CollectorController(Keeper<Collectible> player) {
+        this.player = player;
     }
 
     @Override
@@ -43,31 +44,42 @@ public class CollectorController implements KeyboardListener {
 
     private void doTake() {
         Take<Collectible> action = new Take<>(Collectible.class);
-        action.scheduleOn(actor);
+        action.scheduleOn(player);
     }
 
     private void doDrop() {
         Drop<Collectible> action = new Drop<>();
-        action.scheduleOn(actor);
+        action.scheduleOn(player);
     }
 
     private void doShift() {
-        new Shift().scheduleOn(actor);
+        new Shift().scheduleOn(player);
     }
 
     private void doUseNearest() {
-        Use<Actor> action = new Use<>(null);
-        action.scheduleOnIntersectingWith(actor);
+        Scene scene = player.getScene();
+
+        Actor anActor = scene.getActors().stream()
+            .filter(actor -> actor.intersects(player) && actor instanceof Usable && actor instanceof Collectible)
+            .findFirst()
+            .orElse(null);
+
+        if (anActor == null) return;
+
+        @SuppressWarnings("unchecked")
+        Usable<Actor> usable = (Usable<Actor>) anActor;
+        Use<Actor> action = new Use<>(usable);
+        action.scheduleOn(player);
     }
 
     private void doUseFromBackpack() {
-        if (actor.getContainer().getSize() == 0) return;
+        if (player.getContainer().getSize() == 0) return;
 
-        var item = actor.getContainer().peek();
+        var item = player.getContainer().peek();
         if (item instanceof Collectible && item instanceof Usable) {
             @SuppressWarnings("unchecked")
             Use<Actor> action = new Use<Actor>((Usable<Actor>) item);
-            action.scheduleOnIntersectingWith(actor);
+            action.scheduleOnIntersectingWith(player);
         }
     }
 }

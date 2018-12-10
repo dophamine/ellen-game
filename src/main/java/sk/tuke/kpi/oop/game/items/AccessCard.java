@@ -11,6 +11,8 @@ public class AccessCard extends AbstractActor implements Usable<LockedDoor>, Col
 
     @Override
     public void useWith(LockedDoor door) {
+        if (!(door instanceof LockedDoor)) return;
+
         if (door.isLocked()) {
             door.unlock();
         } else {

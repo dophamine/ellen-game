@@ -26,9 +26,9 @@ public class Ammo extends AbstractActor implements Usable<Armed>, Collectible {
             @SuppressWarnings("unchecked")
             Keeper<Collectible> keeper = (Keeper<Collectible>) actor;
             keeper.getContainer().remove(this);
-        } else {
-            getScene().removeActor(this);
         }
+
+        getScene().removeActor(this);
     }
 
     @Override
