@@ -52,6 +52,7 @@ public class Health {
     }
 
     public void drain(int amount) {
+        if (amount <= 0) return;
         setValue(this.value - amount);
     }
 

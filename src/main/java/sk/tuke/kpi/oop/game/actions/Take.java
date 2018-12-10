@@ -19,12 +19,6 @@ public class Take<A extends Actor> extends AbstractAction<Keeper<A>> {
             return;
         }
 
-//        var collectible = getActor().getScene().getActors().stream()
-//            .filter(takable -> takableActorsClass.isInstance(takable) && takable.intersects(getActor()))
-//            .findFirst()
-//            .map(actor -> takableActorsClass.cast(actor))
-//            .orElse(null);
-
         A takable = null;
         for (var actor: getActor().getScene().getActors()) {
             if (takableActorsClass.isInstance(actor) && actor.intersects(getActor())) {
@@ -42,8 +36,6 @@ public class Take<A extends Actor> extends AbstractAction<Keeper<A>> {
                 getActor().getScene().removeActor(takable);
                 displayErrorMessage(ex.getMessage());
             }
-
-            getActor().getScene().removeActor(takable);
         }
     }
 

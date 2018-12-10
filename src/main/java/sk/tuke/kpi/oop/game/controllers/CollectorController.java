@@ -61,8 +61,8 @@ public class CollectorController implements KeyboardListener {
     }
 
     private void doUseFromBackpack() {
-        Collectible item = actor.getContainer().peek();
-        if (item != null) {
+        var item = actor.getContainer().peek();
+        if (item instanceof Collectible && item instanceof Usable) {
             @SuppressWarnings("unchecked")
             Use<Actor> action = new Use<Actor>((Usable<Actor>) item);
             action.scheduleOnIntersectingWith(actor);

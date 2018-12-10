@@ -12,7 +12,9 @@ public class Energy extends AbstractActor implements Usable<Alive>, Collectible 
 
     @Override
     public void useWith(Alive actor) {
-        actor.getHealth().restore();
+        if (actor == null) return;
+
+        actor.getHealth().refill(100);
 
         if (actor instanceof Keeper) {
             @SuppressWarnings("unchecked")

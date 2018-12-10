@@ -18,6 +18,8 @@ public class Ammo extends AbstractActor implements Usable<Armed>, Collectible {
     }
 
     private void use(Armed actor) {
+        if (actor == null) return;
+        
         actor.getFirearm().reload(amount);
 
         if (actor instanceof Keeper) {
