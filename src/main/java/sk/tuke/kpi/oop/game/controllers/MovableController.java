@@ -66,7 +66,7 @@ public class MovableController implements KeyboardListener {
             moveAction.stop();
         }
 
-        moveAction = new Move<Movable>(calcDirection(), Integer.MAX_VALUE);
+        moveAction = new Move<Movable>(calcDirection(), Short.MAX_VALUE);
         moveAction.scheduleOn(actor);
     }
 }

@@ -3,7 +3,9 @@ package sk.tuke.kpi.oop.game.characters;
 import org.jetbrains.annotations.NotNull;
 import sk.tuke.kpi.gamelib.Actor;
 import sk.tuke.kpi.gamelib.Scene;
+import sk.tuke.kpi.gamelib.actions.Invoke;
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
+import sk.tuke.kpi.gamelib.framework.actions.Loop;
 import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.oop.game.Direction;
 import sk.tuke.kpi.oop.game.Movable;
@@ -67,6 +69,8 @@ public class Alien extends AbstractActor implements Movable, Enemy, Alive {
         if (behaviour != null) {
             behaviour.setUp(this);
         }
+
+        new Loop<>(new Invoke<>(this::checkCollisionWithActor)).scheduleOn(this);
     }
 
     @Override
@@ -86,14 +90,18 @@ public class Alien extends AbstractActor implements Movable, Enemy, Alive {
     }
 
     @Override
-    public void collidedWithActor(Actor actor) {
-        if (actor instanceof Alive && !(actor instanceof Enemy)) {
-            ((Alive) actor).getHealth().drain(1);
-        }
-    }
-
-    @Override
     public void stoppedMoving() {
         getAnimation().stop();
+    }
+
+    private void checkCollisionWithActor() {
+        if (getScene() == null) return;
+
+        for (Actor actor: getScene().getActors()) {
+            if (intersects(actor) && actor instanceof Alive && !(actor instanceof Enemy)) {
+                ((Alive) actor).getHealth().drain(1);
+                break;
+            }
+        }
     }
 }

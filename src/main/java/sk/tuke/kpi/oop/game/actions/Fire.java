@@ -20,10 +20,8 @@ public class Fire<A extends Armed> extends AbstractAction<A> {
 
         Direction direction = Direction.fromAngle(getActor().getAnimation().getRotation());
 
-        // TODO Make correct bullet launch point
-
         getActor().getScene().addActor(bullet, getActor().getPosX() + 16 /2, getActor().getPosY() + 32);
 
-        new Move<Fireable>(direction, Integer.MAX_VALUE, false).scheduleOn(bullet);
+        new Move<Fireable>(direction, Short.MAX_VALUE, false).scheduleOn(bullet);
     }
 }

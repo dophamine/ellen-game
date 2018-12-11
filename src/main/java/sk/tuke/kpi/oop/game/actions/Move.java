@@ -58,13 +58,6 @@ public class Move<A extends Movable> implements Action<A> {
             var map = getActor().getScene().getMap();
             getActor().setPosition(posX, posY);
 
-            checkForIntersectedActor();
-
-            if (getActor() == null) {
-                stop();
-                return;
-            }
-
             if (map.intersectsWithWall(getActor())) {
                 stop();
                 getActor().setPosition(tmpPosX, tmpPosY);
@@ -111,17 +104,6 @@ public class Move<A extends Movable> implements Action<A> {
         isStopped = true;
         if (getActor() != null) {
             getActor().stoppedMoving();
-        }
-    }
-
-    private void checkForIntersectedActor() {
-        if (getActor() == null) return;
-
-        for (var actor: getActor().getScene().getActors()) {
-            if (getActor().intersects(actor)) {
-                getActor().collidedWithActor(actor);
-                break;
-            }
         }
     }
 

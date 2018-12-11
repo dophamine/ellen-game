@@ -60,7 +60,7 @@ public class CollectorController implements KeyboardListener {
         Scene scene = player.getScene();
 
         Actor anActor = scene.getActors().stream()
-            .filter(actor -> actor.intersects(player) && actor instanceof Usable && !(actor instanceof Collectible))
+            .filter(actor -> actor.intersects(player) && actor instanceof Usable)
             .findFirst()
             .orElse(null);
 
