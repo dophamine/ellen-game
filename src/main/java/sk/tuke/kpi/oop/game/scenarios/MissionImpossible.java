@@ -4,8 +4,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sk.tuke.kpi.gamelib.Actor;
 import sk.tuke.kpi.gamelib.ActorFactory;
+import sk.tuke.kpi.gamelib.Disposable;
 import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.SceneListener;
+import sk.tuke.kpi.gamelib.actions.ActionSequence;
+import sk.tuke.kpi.gamelib.actions.Invoke;
+import sk.tuke.kpi.gamelib.actions.Wait;
+import sk.tuke.kpi.gamelib.framework.actions.Loop;
 import sk.tuke.kpi.oop.game.Locker;
 import sk.tuke.kpi.oop.game.Ventilator;
 import sk.tuke.kpi.oop.game.characters.Ripley;
@@ -17,8 +22,6 @@ import sk.tuke.kpi.oop.game.openables.Door;
 import sk.tuke.kpi.oop.game.openables.LockedDoor;
 
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MissionImpossible implements SceneListener {
     public static class Factory implements ActorFactory {
@@ -63,24 +66,25 @@ public class MissionImpossible implements SceneListener {
         var movableController = scene.getInput().registerListener(new MovableController(ripley));
         var collectorController = scene.getInput().registerListener(new CollectorController(ripley));
 
-
         scene.getMessageBus().subscribeOnce(Ripley.RIPLEY_DIED, v -> {
             movableController.dispose();
             collectorController.dispose();
         });
 
-        Timer parasitesAttack = new Timer();
+        // parasites attack
         scene.getMessageBus().subscribeOnce(Door.DOOR_OPENED, d -> {
-            parasitesAttack.scheduleAtFixedRate(new TimerTask(){
-                @Override
-                public void run(){
-                    ripley.loseEnergy();
-                }
-            }, 0, 100);
-        });
+            Disposable parasitesAttack = new Loop<>(
+                new ActionSequence<>(
+                    new Invoke<>(() -> {
+                        ripley.loseEnergy();
+                    }),
+                    new Wait<>(0.3f)
+                )
+            ).scheduleOn(ripley);
 
-        scene.getMessageBus().subscribeOnce(Ventilator.VENTILATOR_REPAIRED, v -> {
-            parasitesAttack.cancel();
+            scene.getMessageBus().subscribeOnce(Ventilator.VENTILATOR_REPAIRED, v -> {
+                parasitesAttack.dispose();
+            });
         });
     }
 

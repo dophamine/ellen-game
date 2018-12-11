@@ -68,8 +68,10 @@ public class CollectorController implements KeyboardListener {
 
         @SuppressWarnings("unchecked")
         Usable<Actor> usable = (Usable<Actor>) anActor;
-        Use<Actor> action = new Use<>(usable);
-        action.scheduleOn(player);
+        if (usable.getUsingActorClass().isInstance(player)) {
+            Use<Actor> action = new Use<>(usable);
+            action.scheduleOn(player);
+        }
     }
 
     private void doUseFromBackpack() {
