@@ -12,18 +12,18 @@ import sk.tuke.kpi.oop.game.Direction;
 import sk.tuke.kpi.oop.game.characters.Alive;
 
 public class Bullet extends AbstractActor implements Fireable, Disposable {
-    private Gun owner;
+    private Firearm owner;
 
-    public Bullet(Gun owner) {
+    public Bullet(Firearm owner) {
         setAnimation(new Animation("sprites/bullet.png", 16, 16, 0.1f));
         setOwner(owner);
     }
 
-    public void setOwner(Gun owner) {
+    public void setOwner(Firearm owner) {
         this.owner = owner;
     }
 
-    public Gun getOwner() {
+    public Firearm getOwner() {
         return owner;
     }
 
