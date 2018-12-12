@@ -10,21 +10,11 @@ import sk.tuke.kpi.gamelib.framework.actions.Loop;
 import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.oop.game.Direction;
 import sk.tuke.kpi.oop.game.characters.Alive;
+import sk.tuke.kpi.oop.game.characters.Ripley;
 
 public class Bullet extends AbstractActor implements Fireable, Disposable {
-    private Firearm owner;
-
-    public Bullet(Firearm owner) {
+    public Bullet() {
         setAnimation(new Animation("sprites/bullet.png", 16, 16, 0.1f));
-        setOwner(owner);
-    }
-
-    public void setOwner(Firearm owner) {
-        this.owner = owner;
-    }
-
-    public Firearm getOwner() {
-        return owner;
     }
 
     @Override
@@ -59,7 +49,7 @@ public class Bullet extends AbstractActor implements Fireable, Disposable {
         if (getScene() == null) return;
 
         for (Actor actor: getScene().getActors()) {
-            if (actor != getOwner().getOwner() && intersects(actor) && actor instanceof Alive) {
+            if (intersects(actor) && actor instanceof Alive && !(actor instanceof Ripley)) {
                 ((Alive) actor).getHealth().drain(10);
                 dispose();
                 break;

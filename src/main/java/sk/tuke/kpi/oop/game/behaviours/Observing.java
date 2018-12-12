@@ -24,7 +24,7 @@ public class Observing<T, A extends Actor> implements Behaviour<A> {
         Scene scene = actor.getScene();
         if (scene == null) return;
 
-        scene.getMessageBus().subscribeOnce(topic, t -> {
+        scene.getMessageBus().subscribe(topic, t -> {
             if (predicate.test(t)) {
                 delegate.setUp(actor);
             }
