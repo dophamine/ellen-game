@@ -78,6 +78,7 @@ public class EscapeRoom implements SceneListener {
 
         if (ripley == null) return;
 
+        scene.getGame().pushActorContainer(ripley.getContainer());
         scene.follow(ripley);
 
         var movableController = scene.getInput().registerListener(new MovableController(ripley));
