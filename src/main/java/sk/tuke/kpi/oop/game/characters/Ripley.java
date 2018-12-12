@@ -34,16 +34,13 @@ public class Ripley extends AbstractActor implements Movable, Keeper<Collectible
         walkAnimation.stop();
 
         health = new Health(100);
-        gun = new Gun(150, 250);
+        gun = new Gun(150, 250, this);
 
         Ripley self = this;
-        health.onExhaustion(new Health.ExhaustionEffect() {
-            @Override
-            public void apply() {
-                setAnimation(dieAnimation);
-                getScene().getMessageBus().publish(RIPLEY_DIED, self);
-                getScene().cancelActions(self);
-            }
+        health.onExhaustion(() -> {
+            setAnimation(dieAnimation);
+            getScene().getMessageBus().publish(RIPLEY_DIED, self);
+            getScene().cancelActions(self);
         });
     }
 
