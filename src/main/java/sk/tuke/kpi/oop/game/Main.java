@@ -6,7 +6,7 @@ import sk.tuke.kpi.gamelib.Input;
 import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.WindowSetup;
 import sk.tuke.kpi.gamelib.World;
-import sk.tuke.kpi.oop.game.scenarios.EscapeRoom;
+import sk.tuke.kpi.oop.game.addon.scenarios.Stakeout;
 
 public class Main {
     public static void main(String[] args){
@@ -19,12 +19,12 @@ public class Main {
 
         // vytvorenie sceny pre hru
         // pouzijeme implementaciu rozhrania `Scene` triedou `World`
-        Scene scene = new World("world", "maps/escape-room.tmx", new EscapeRoom.Factory());
+        Scene scene = new World("world", "maps/stakeout.tmx", new Stakeout.Factory());
 
         // pridanie sceny do hry
         game.addScene(scene);
 
-        scene.addListener(new EscapeRoom());
+        scene.addListener(new Stakeout());
 
         // spustenie hry
         game.start();

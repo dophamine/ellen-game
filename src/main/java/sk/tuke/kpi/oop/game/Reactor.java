@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class Reactor extends AbstractActor implements Repairable, Switchable{
+public class Reactor extends AbstractActor implements Repairable, Switchable {
 
     private int temperature;
     private int damage;
@@ -67,12 +67,7 @@ public class Reactor extends AbstractActor implements Repairable, Switchable{
     private void updateAnimation(){
        updateAnimation2();
         if(temperature >= 6000){
-            damage = 100;
-            running = false;
-            for (EnergyConsumer dev : devices) {
-                dev.setPowered(false);
-            }
-            setAnimation(brokenAnimation);
+            onBroken();
         }
         if(damage == 100){
             setAnimation(brokenAnimation);
@@ -187,6 +182,15 @@ public class Reactor extends AbstractActor implements Repairable, Switchable{
         }
         devices.remove(energyConsumer);
         energyConsumer.setPowered(false);
+    }
+
+    protected void onBroken() {
+        damage = 100;
+        running = false;
+        for (EnergyConsumer dev : devices) {
+            dev.setPowered(false);
+        }
+        setAnimation(brokenAnimation);
     }
 }
 

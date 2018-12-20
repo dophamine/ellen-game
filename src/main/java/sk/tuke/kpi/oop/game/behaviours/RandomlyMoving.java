@@ -1,5 +1,6 @@
 package sk.tuke.kpi.oop.game.behaviours;
 
+import sk.tuke.kpi.gamelib.Disposable;
 import sk.tuke.kpi.gamelib.actions.ActionSequence;
 import sk.tuke.kpi.gamelib.actions.Invoke;
 import sk.tuke.kpi.gamelib.actions.Wait;
@@ -13,6 +14,7 @@ import java.util.Random;
 public class RandomlyMoving implements Behaviour<Movable> {
     private Movable movable = null;
     private Move<Movable> action = null;
+    private Disposable loop;
 
     public RandomlyMoving() {
     }
@@ -22,7 +24,11 @@ public class RandomlyMoving implements Behaviour<Movable> {
         if (actor == null) return;
         movable = actor;
 
-        new Loop<Movable>(new ActionSequence<>(new Invoke<>(this::makeMove), new Wait<>(1))).scheduleOn(actor);
+        if (loop != null) {
+            loop.dispose();
+        }
+
+        loop = new Loop<Movable>(new ActionSequence<>(new Invoke<>(this::makeMove), new Wait<>(1))).scheduleOn(actor);
     }
 
     private void makeMove() {

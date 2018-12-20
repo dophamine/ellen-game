@@ -36,14 +36,10 @@ public class Ripley extends AbstractActor implements Movable, Keeper<Collectible
         health = new Health(100);
         gun = new Gun(150, 250);
 
-        Ripley self = this;
-        health.onExhaustion(new Health.ExhaustionEffect() {
-            @Override
-            public void apply() {
-                setAnimation(dieAnimation);
-                getScene().getMessageBus().publish(RIPLEY_DIED, self);
-                getScene().cancelActions(self);
-            }
+        health.onExhaustion(() -> {
+            setAnimation(dieAnimation);
+            getScene().getMessageBus().publish(RIPLEY_DIED, this);
+            getScene().cancelActions(this);
         });
     }
 
@@ -66,6 +62,10 @@ public class Ripley extends AbstractActor implements Movable, Keeper<Collectible
     @Override
     public int getSpeed() {
         return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     @Override

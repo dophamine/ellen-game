@@ -47,15 +47,10 @@ public class Alien extends AbstractActor implements Movable, Enemy, Alive {
     }
 
     protected void init() {
-        var self = this;
-
-        health.onExhaustion(new Health.ExhaustionEffect() {
-            @Override
-            public void apply() {
-                getScene().cancelActions(self);
-                getAnimation().stop();
-                getScene().removeActor(self);
-            }
+        health.onExhaustion(() -> {
+            getScene().cancelActions(this);
+            getAnimation().stop();
+            getScene().removeActor(this);
         });
 
         setAnimation(new Animation("sprites/alien.png", 32, 32, 0.1f));
@@ -70,6 +65,10 @@ public class Alien extends AbstractActor implements Movable, Enemy, Alive {
             behaviour.setUp(this);
         }
 
+        onSceneBehaviour();
+    }
+
+    protected void onSceneBehaviour() {
         new Loop<>(new Invoke<>(this::checkCollisionWithActor)).scheduleOn(this);
     }
 
@@ -94,7 +93,7 @@ public class Alien extends AbstractActor implements Movable, Enemy, Alive {
         getAnimation().stop();
     }
 
-    private void checkCollisionWithActor() {
+    protected void checkCollisionWithActor() {
         if (getScene() == null) return;
 
         for (Actor actor: getScene().getActors()) {
