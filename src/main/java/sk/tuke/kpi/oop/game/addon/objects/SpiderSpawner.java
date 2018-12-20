@@ -15,17 +15,14 @@ import sk.tuke.kpi.oop.game.addon.characters.Spider;
 import java.util.Random;
 
 public class SpiderSpawner extends AbstractActor {
-    private int waves;
+    private int waves = 3;
     private int waveSize = 3;
-    private float delay;
+    private float delay = 3;
     private String type;
     private boolean isActivated = false;
 
-    public SpiderSpawner(String type, int waveSize, int waves, float delay) {
+    protected SpiderSpawner(String type) {
         this.type = type;
-        this.waveSize = waveSize;
-        this.waves = waves;
-        this.delay = delay;
         init();
     }
 
@@ -73,20 +70,19 @@ public class SpiderSpawner extends AbstractActor {
             return;
         }
 
-        for (int i = 1; i < waveSize; i++) {
+        for (int i = 1; i <= waveSize; i++) {
             spawnEnemy();
         }
     }
 
     private void spawnEnemy() {
         Point pos = getNearRandomPoint();
-        // TODO PROTOTYPE
-        var actor = new Spider(new Chasing());
+        var actor = new Spider(new Chasing(100));
         getScene().addActor(actor, pos.getX(), pos.getY());
 
         var map = getScene().getMap();
 
-        while(map.intersectsWithWall(actor)) {
+        while (map.intersectsWithWall(actor)) {
             Point newPos = getNearRandomPoint();
             actor.setPosition(newPos.getX(), newPos.getY());
         }
@@ -98,5 +94,17 @@ public class SpiderSpawner extends AbstractActor {
         int y = new Random().nextInt((2 * maxRange ) + 1) - maxRange + getPosY();
 
         return new Point(x, y);
+    }
+
+    public void setWaves(int waves) {
+        this.waves = waves;
+    }
+
+    public void setWaveSize(int waveSize) {
+        this.waveSize = waveSize;
+    }
+
+    public void setDelay(float delay) {
+        this.delay = delay;
     }
 }

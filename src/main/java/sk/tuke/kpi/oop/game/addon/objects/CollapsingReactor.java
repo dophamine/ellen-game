@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.messages.Topic;
 import sk.tuke.kpi.oop.game.Reactor;
+import sk.tuke.kpi.oop.game.actions.PerpetualReactorHeating;
 import sk.tuke.kpi.oop.game.openables.Door;
 
 public class CollapsingReactor extends Reactor {
@@ -24,5 +25,10 @@ public class CollapsingReactor extends Reactor {
     protected void onBroken() {
         super.onBroken();
         getScene().getMessageBus().publish(REACTOR_EXPLODED, this);
+    }
+
+    @Override
+    protected void onAddedToScene() {
+        new PerpetualReactorHeating(1).scheduleOn(this);
     }
 }

@@ -35,7 +35,9 @@ public class Mine extends AbstractActor implements Alive, Enemy, Disposable {
         super.addedToScene(scene);
 
         health.onExhaustion(() -> explode());
-        new Loop<>(new Invoke<>(this::checkCollisionWithActor)).scheduleOn(this);
+        new Loop<>(
+            new Invoke<>(this::checkCollisionWithActor)
+        ).scheduleOn(this);
     }
 
     @Override

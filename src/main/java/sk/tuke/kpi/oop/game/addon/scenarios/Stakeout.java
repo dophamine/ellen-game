@@ -6,16 +6,12 @@ import sk.tuke.kpi.gamelib.Actor;
 import sk.tuke.kpi.gamelib.ActorFactory;
 import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.SceneListener;
-import sk.tuke.kpi.oop.game.addon.objects.SpiderSpawner;
-import sk.tuke.kpi.oop.game.addon.objects.Trigger;
+import sk.tuke.kpi.oop.game.addon.objects.*;
 import sk.tuke.kpi.oop.game.addon.behaviours.Chasing;
 import sk.tuke.kpi.oop.game.addon.characters.Hero;
 import sk.tuke.kpi.oop.game.addon.characters.Spider;
 import sk.tuke.kpi.oop.game.addon.items.Mine;
 import sk.tuke.kpi.oop.game.addon.items.Stimulator;
-import sk.tuke.kpi.oop.game.addon.objects.Button;
-import sk.tuke.kpi.oop.game.addon.objects.CollapsingReactor;
-import sk.tuke.kpi.oop.game.addon.objects.ElectricityTrap;
 import sk.tuke.kpi.oop.game.addon.openables.DistantContolledDoor;
 import sk.tuke.kpi.oop.game.behaviours.Behaviour;
 import sk.tuke.kpi.oop.game.behaviours.Observing;
@@ -55,7 +51,7 @@ public class Stakeout implements SceneListener {
                     case "spider":
                         return new Spider(getAIBehaviour(type));
                     case "enemy spawner":
-                        return new SpiderSpawner(type,3, 3, 3);
+                        return new SpiderSpawnerBuilder(type).delay(2).build();
                     case "trigger":
                         return new Trigger(type);
                     case "stimulator":

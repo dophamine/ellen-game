@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="2018.11.29" orientation="orthogonal" renderorder="right-down" width="20" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="75">
+<map version="1.2" tiledversion="2018.11.29" orientation="orthogonal" renderorder="right-down" width="20" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="76">
  <tileset firstgid="1" name="tileset01" tilewidth="16" tileheight="16" tilecount="500" columns="20">
   <image source="tilesets/tileset01.png" width="320" height="400"/>
  </tileset>
@@ -8,12 +8,12 @@
  </tileset>
  <layer id="4" name="background" width="20" height="25">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <layer id="2" name="walls" width="20" height="25" visible="0">
   <data encoding="base64" compression="zlib">
-   eJztk0sKwCAMRA29/3n0RDXHcFEXGvJtiqsODKINj8SxDUpp03g9a4V9lc6ob8WcpPP1e4Rn6RRPq4/yrHoPzxLOXKuRYYTnEcfDRD5c7dtsT/I67Hsklu7C05/Wb2dqf568x5nV6ixPU3beL3l03i78m9556d1p/dE3n+FxNZxO8jKmrAHHGp/g
+   eJztk10KgCAQhJXufx49Ue4xfMhAl/1txacGBtGWj7GpmlOqw3A9a8nryp1h34Ipcefzcw9P0ymeNO/lafMWniYYvRalQw/PIooHgX6o2a/dnuS1vO4BmXsXlnxS3kbM/jx+D6Or2VGepOh9d/LwfRvzb3p41nz4m38FKI+FR81E8u3gRYxZHYMInvc=
   </data>
  </layer>
  <objectgroup id="3" name="actors">
@@ -28,7 +28,6 @@
   <object id="20" name="mine" x="30" y="314.75" width="13" height="12.5"/>
   <object id="24" name="trigger" type="wave 1" x="104" y="336.25" width="16" height="16"/>
   <object id="26" name="enemy spawner" type="wave 1" x="96" y="224" width="32" height="32"/>
-  <object id="28" name="ellen" type="ripley" x="272" y="32" width="32" height="32"/>
   <object id="29" name="door" type="horizontal" x="96" y="176" width="32" height="16"/>
   <object id="30" name="mine" x="80" y="208" width="13" height="12.5"/>
   <object id="31" name="mine" x="111.5" y="203.5" width="13" height="12.5"/>
@@ -65,5 +64,6 @@
   <object id="71" name="spider" type="waiting and chase 2" x="258.125" y="330.25" width="16" height="16"/>
   <object id="73" name="spider" type="waiting and chase 2" x="280" y="330.5" width="16" height="16"/>
   <object id="74" name="spider" type="waiting and chase 2" x="262.25" y="363" width="16" height="16"/>
+  <object id="28" name="ellen" type="ripley" x="272" y="32" width="32" height="32"/>
  </objectgroup>
 </map>
